@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--一个mapper对应一个接口，通过namespace-->
+<mapper namespace="io.github.fattydelivery.courseevaluation.mapper.CourseMapper">
+    <resultMap type="Course" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+        <result column="course_id" property="courseId"/>
+        <result column="course_name" property="courseName"/>
+        <result column="course_credit" property="courseCredit"/>
+        <result column="course_credit_hour" property="courseCreditHour"/>
+        <result column="teacher_name" property="teacherName"/>
+        <result column="type_name" property="typeName"/>
+    </resultMap>
+
+    <!--增加一本书-->
+
+    <insert id="addCourse" parameterType="Course">
+        insert into forum.t_course (course_id, course_name, course_credit, course_credit_hour, teacher_name, type_name)
+        values (#{courseId}, #{courseName}, #{courseCredit}, #{courseCreditHour}, #{teacherName}, #{typeName});
+    </insert>
+
+    <!--    删除一本书-->
+
+    <delete id="delCourseById" parameterType="String">
+        delete
+        from forum.t_course
+        where course_id = #{courseId}
+    </delete>
+
+    <!--    更新一本书-->
+
+    <update id="updateCourse" parameterType="Course">
+        update forum.t_course
+        set course_id=#{courseId},
+            course_name=#{courseName},
+            course_credit=#{courseCredit},
+            course_credit_hour=#{courseCreditHour},
+            teacher_name=#{teacherName},
+            type_name=#{typeName}
+        where course_id = #{courseId};
+    </update>
+
+    <!--    根据id查询书-->
+
+    <select id="queryCourseById" resultMap="BaseResultMap">
+        select *
+        from forum.t_course
+        where course_id = #{courseId}
+    </select>
+
+    <!--    根据书名查询书籍-->
+
+    <select id="queryCourseByName" resultMap="BaseResultMap">
+        select *
+        from forum.t_course
+        where course_name = #{courseName}
+    </select>
+
+    <!--    查询数据库中所有书籍-->
+
+    <select id="queryAllCourse" resultMap="BaseResultMap">
+        select *
+        from forum.t_course
+    </select>
+
+</mapper>

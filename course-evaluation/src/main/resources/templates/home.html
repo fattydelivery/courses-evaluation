@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>海南大学课程评价网</title>
+        <link rel="stylesheet" href="/css/layui.css">
+</head>
+<body>
+
+<!--根据书名查找数据   th:action="@{/search}" -->
+<form th:action="@{/search}" method="post" style="margin-left: 10px;margin-bottom: 10px;">
+    <label>查询书籍：</label>
+    <input type="text" name="queryCourseName" placeholder="请输入要查询的书籍名称">
+    <input type="submit" value="查询" class="layui-btn layui-btn-sm layui-btn-primary">
+</form>
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>课程列表</legend>
+</fieldset>
+
+<div class="layui-bg-gray" style="padding: 30px;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8 layui-col-md-offset2">
+            <div class="layui-panel">
+                <div style="padding: 50px 30px;">
+                    <div class="layui-row layui-col-space10 grid-demo" th:each="listcourse:${courselist}">
+                        <div class="layui-col-md1" th:text="${listcourse.getCourseId()}"></div>
+                        <div class="layui-col-md3" th:text="${listcourse.getCourseName()}"></div>
+                        <div class="layui-col-md2" th:text="${listcourse.getTeacherName()}"></div>
+                        <div class="layui-col-md1 layui-col-md-offset1" th:text="喜欢"></div>
+                        <div class="layui-col-md1 layui-col-md-offset1" th:text="评论"></div>
+                        <div class="layui-col-md1 layui-col-md-offset1" th:text="评分"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
