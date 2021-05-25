@@ -13,7 +13,7 @@ import java.util.List;
  **/
 public interface CommentService {
     // 增加一个评论
-    int addComment(Comment comment);
+    int addComment(String courseId, String commentContent);
 
     // 删除一个评论
     int delCommentById(String id);

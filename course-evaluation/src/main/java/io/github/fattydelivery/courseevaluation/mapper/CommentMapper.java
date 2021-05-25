@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
     // 增加一个评论
-    int addComment(Comment comment);
+    int addComment(String courseId, String commentContent);
 
     // 删除一个评论
     int delCommentById(@Param("commentId") String id);

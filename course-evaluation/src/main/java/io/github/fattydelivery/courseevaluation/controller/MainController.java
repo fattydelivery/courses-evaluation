@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,6 +53,7 @@ public class MainController {
         List<Comment> comments = commentService.queryAllCommentByCourseId(id);
 //        System.out.println(comments.size());
         model.addAttribute("commentlist", comments);
+        model.addAttribute("courseId", id);
         return "course";
     }
 
@@ -80,18 +82,29 @@ public class MainController {
     }
 
 
-    //    添加书籍的页面
+    // 添加课程的页面
     @GetMapping("/add-course")
     public String add() {
         return "add";   //返回到修改书籍信息的页面
     }
 
 
-    //添加书籍的请求处理
+    // 添加书籍的请求处理
     @PostMapping("/addcourse")
     public String addbook(Course course) {
         courseService.addCourse(course);
         return "redirect:/home";
+    }
+
+
+    // 添加评论的请求处理
+    @PostMapping("/addcomment")
+    public String addcomment(@RequestParam(value = "course_id", required = false) String courseId,
+                             @RequestParam(value = "comment_content", required = false) String commentContent) {
+        System.out.println(courseId);
+        System.out.println(commentContent);
+        commentService.addComment(courseId, commentContent);
+        return "redirect:/course/"+courseId;
     }
 
 
