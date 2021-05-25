@@ -24,7 +24,7 @@ public interface CourseService {
     // 查询一个课程
     Course queryCourseById(String id);
 
-    Course queryCourseByName(String name);
+    List<Course> queryCourseByName(String name);
 
     // 查询所有的课程
     List<Course> queryAllCourse();

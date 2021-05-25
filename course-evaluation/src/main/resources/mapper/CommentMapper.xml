@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--一个mapper对应一个接口，通过namespace-->
+<mapper namespace="io.github.fattydelivery.courseevaluation.mapper.CommentMapper">
+    <resultMap type="Comment" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+        <result column="comment_id" property="commentId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="comment_time" property="commentTime"/>
+        <result column="comment_content" property="commentContent"/>
+    </resultMap>
+
+    <!-- 增加一条评论 -->
+
+    <insert id="addComment" parameterType="Comment">
+        insert into forum.t_comment (comment_id, course_id, comment_time, comment_content)
+        values (#{commentId}, #{courseId}, #{commentTime}, #{commentContent});
+    </insert>
+
+    <!-- 删除一条评论 -->
+
+    <delete id="delCommentById" parameterType="String">
+        delete
+        from forum.t_comment
+        where comment_id = #{commentId}
+    </delete>
+
+    <!-- 更新一条评论 -->
+
+    <update id="updateComment" parameterType="Comment">
+        update forum.t_comment
+        set comment_id=#{commentId},
+            course_id=#{courseId},
+            comment_time=#{commentTime},
+            comment_content=#{commentContent}
+        where comment_id = #{commentId};
+    </update>
+
+    <!-- 根据id查询评论 -->
+
+    <select id="queryCommentById" resultMap="BaseResultMap">
+        select *
+        from forum.t_comment
+        where comment_id = #{commentId}
+    </select>
+
+    <!-- 根据course_id查询评论 -->
+
+    <select id="queryAllCommentByCourseId" resultMap="BaseResultMap">
+        select *
+        from forum.t_comment
+        where course_id = #{courseId}
+    </select>
+
+    <!-- 查询数据库中所有评论 -->
+
+    <select id="queryAllComment" resultMap="BaseResultMap">
+        select *
+        from forum.t_comment
+    </select>
+
+    <!-- 根据courseId查询数据库中评论个数 -->
+
+    <select id="queryNumberOfCommentByCourseId" resultType="int">
+        select SUM(*)
+        from forum.t_comment
+    </select>
+
+</mapper>

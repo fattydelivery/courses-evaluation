@@ -28,7 +28,7 @@ public interface CourseMapper {
     // 查询一个课程
     Course queryCourseById(@Param("courseId") String id);
 
-    Course queryCourseByName(@Param("courseName") String name);
+    List<Course> queryCourseByName(@Param("courseName") String name);
 
     // 查询所有课程
     List<Course> queryAllCourse();

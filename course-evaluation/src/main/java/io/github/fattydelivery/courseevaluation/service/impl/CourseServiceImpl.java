@@ -40,7 +40,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course queryCourseByName(String name) {
+    public List<Course> queryCourseByName(String name) {
         return courseMapper.queryCourseByName(name);
     }
 

@@ -17,14 +17,14 @@
         <result column="type_name" property="typeName"/>
     </resultMap>
 
-    <!--增加一本书-->
+    <!-- 增加一个课程 -->
 
     <insert id="addCourse" parameterType="Course">
         insert into forum.t_course (course_id, course_name, course_credit, course_credit_hour, teacher_name, type_name)
         values (#{courseId}, #{courseName}, #{courseCredit}, #{courseCreditHour}, #{teacherName}, #{typeName});
     </insert>
 
-    <!--    删除一本书-->
+    <!-- 删除一个课程 -->
 
     <delete id="delCourseById" parameterType="String">
         delete
@@ -32,7 +32,7 @@
         where course_id = #{courseId}
     </delete>
 
-    <!--    更新一本书-->
+    <!-- 更新一个课程 -->
 
     <update id="updateCourse" parameterType="Course">
         update forum.t_course
@@ -45,7 +45,7 @@
         where course_id = #{courseId};
     </update>
 
-    <!--    根据id查询书-->
+    <!-- 根据id查询课程 -->
 
     <select id="queryCourseById" resultMap="BaseResultMap">
         select *
@@ -53,15 +53,15 @@
         where course_id = #{courseId}
     </select>
 
-    <!--    根据书名查询书籍-->
+    <!-- 根据课程名查询课程 -->
 
     <select id="queryCourseByName" resultMap="BaseResultMap">
         select *
         from forum.t_course
-        where course_name = #{courseName}
+        where course_name like concat('%',#{courseName},'%')
     </select>
 
-    <!--    查询数据库中所有书籍-->
+    <!-- 查询数据库中所有课程 -->
 
     <select id="queryAllCourse" resultMap="BaseResultMap">
         select *
