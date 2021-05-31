@@ -20,7 +20,7 @@ CREATE TABLE t_rating (
     rating_id VARCHAR(36) PRIMARY KEY,
     course_id VARCHAR(10),
     rating_time DATETIME,
-    rating_score DOUBLE,
+    rating_score INT,
     FOREIGN KEY(course_id) REFERENCES t_course(course_id)
 );
 
@@ -52,7 +52,16 @@ INSERT INTO t_comment (comment_id, course_id, comment_time, comment_content)
     VALUES(uuid(), "B16290", now(), "刘老师棒棒！");
 
 INSERT INTO t_comment (comment_id, course_id, comment_time, comment_content)
-    VALUES(uuid(), "B16290", now(), "刘老师棒棒！");
+    VALUES(uuid(), "B16290", now(), "刘老师好腻害！");
 
 INSERT INTO t_comment (comment_id, course_id, comment_time, comment_content)
-    VALUES(uuid(), "B16290", now(), "刘老师棒棒！");
+    VALUES(uuid(), "B16290", now(), "吹爆刘老师！");
+
+INSERT INTO t_rating (rating_id, course_id, rating_time, rating_score)
+    VALUES(uuid(), "B16290", now(), 5);
+
+INSERT INTO t_rating (rating_id, course_id, rating_time, rating_score)
+    VALUES(uuid(), "B16290", now(), 4);
+
+select AVG(rating_score)
+        from forum.t_rating

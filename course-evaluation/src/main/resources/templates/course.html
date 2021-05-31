@@ -6,6 +6,7 @@
     <title>评论列表页面</title>
 
     <link rel="stylesheet" type="text/css" href="/css/layui.css" media="all">
+    <script src="/js/jquery-3.6.0.min.js"></script>
 
 
 </head>
@@ -28,7 +29,6 @@
         clear: both;
         height: 40px;
         background: #F0F0F0;
-        text-align: center;
         line-height: 40px;
     / / 行高（与div保持同高，垂直居中写法）
     }
@@ -78,29 +78,72 @@
             <hr>
         </div>
     </div>
-    <div class="comment_add_or_last layui-col-md4 layui-col-lg-offset4">
+    <div class="comment_add_or_last layui-col-md4 layui-col-md-offset4" style="text-align: center">
         没有更多评论了
     </div>
 </div>
 
 <div class="layui-row">
-<div class="comment_list layui-col-md8 layui-col-md-offset2">
-    <form class="layui-form" action="/addcomment" method="post">
-        <div class="layui-form-item layui-form-text">
-            <input name="course_id" class="layui-input" th:value="${courseId}" style="display: none">
-            <label class="layui-form-label">评论</label>
-            <div class="layui-input-block">
-                <textarea name="comment_content" placeholder="请输入评论" class="layui-textarea"></textarea>
+    <div class="comment_list layui-col-md6 layui-col-md-offset3">
+        <form class="layui-form" action="/addrecord" method="post">
+            <div class="layui-form-item layui-form-text">
+                <input name="course_id" class="layui-input" th:value="${courseId}" style="display: none">
+                <label class="layui-form-label">评论</label>
+                <div class="layui-input-block">
+                    <textarea name="comment_content" placeholder="请输入评论" class="layui-textarea"></textarea>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">评分</label>
+                <input id="rating" name="rating" value=0 style="display: none">
+                <div id="div-rating"><span></span></div>
+                <script src="/js/layui.js"></script>
+                <script>
+                    layui.use('rate', function () {
+                        var rate = layui.rate;
+
+                        //渲染
+                        var ins1 = rate.render({
+                            elem: '#div-rating'  //绑定元素
+                            , setText: function (value) {
+                                this.span.text(value + "星");
+                            }
+                            , choose: function (value) {
+                                rating = document.getElementById("rating");
+                                rating.value = value;
+                            }
+                        });
+                    });
+                </script>
             </div>
-        </div>
-    </form>
-</div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">喜欢</label>
+                <input id="like-value" name="like" value=0 style="display: none">
+                <button class="layui-btn layui-btn-primary" id="like-btn" type="button">
+                    <i class="layui-icon layui-icon-heart" id="like-icon"></i>
+                </button>
+                <script>
+                    $("#like-btn").click(function () {
+                        icon = document.getElementById("like-icon");
+                        like = document.getElementById("like-value");
+                        if (icon.classList.contains('layui-icon-heart')) {
+                            icon.className = "layui-icon layui-icon-heart-fill";
+                            like.value = 1;
+                        } else {
+                            icon.className = "layui-icon layui-icon-heart";
+                            like.value = 0;
+                        }
+                    });
+                </script>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 <script type="text/javascript" src="/js/layui.js"></script>

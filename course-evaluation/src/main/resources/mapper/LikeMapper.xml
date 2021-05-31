@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--一个mapper对应一个接口，通过namespace-->
+<mapper namespace="io.github.fattydelivery.courseevaluation.mapper.LikeMapper">
+    <resultMap type="Like" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+        <result column="like_id" property="likeId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="like_time" property="likeTime"/>
+    </resultMap>
+
+    <!-- 增加一条喜欢 -->
+
+    <insert id="addLike">
+        insert into forum.t_like (like_id, course_id, like_time)
+        values (uuid(), #{courseId}, now());
+    </insert>
+
+    <!-- 删除一条喜欢 -->
+
+    <delete id="delLikeById" parameterType="String">
+        delete
+        from forum.t_like
+        where like_id = #{likeId}
+    </delete>
+
+    <!-- 根据id查询喜欢 -->
+
+    <select id="queryLikeById" resultMap="BaseResultMap">
+        select *
+        from forum.t_like
+        where like_id = #{likeId}
+    </select>
+
+    <!-- 根据course_id查询喜欢 -->
+
+    <select id="queryAllLikeByCourseId" resultMap="BaseResultMap">
+        select *
+        from forum.t_like
+        where course_id = #{courseId}
+    </select>
+
+    <!-- 查询数据库中所有喜欢 -->
+
+    <select id="queryAllLike" resultMap="BaseResultMap">
+        select *
+        from forum.t_like
+    </select>
+
+    <!-- 根据courseId查询数据库中喜欢个数 -->
+
+    <select id="queryNumberOfLikeByCourseId" resultType="int">
+        select SUM(*)
+        from forum.t_like
+    </select>
+
+</mapper>

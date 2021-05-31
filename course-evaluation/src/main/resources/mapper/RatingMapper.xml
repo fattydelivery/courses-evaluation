@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--一个mapper对应一个接口，通过namespace-->
+<mapper namespace="io.github.fattydelivery.courseevaluation.mapper.RatingMapper">
+    <resultMap type="Rating" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+        <result column="rating_id" property="ratingId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="rating_time" property="ratingTime"/>
+        <result column="rating_score" property="ratingScore"/>
+    </resultMap>
+
+    <!-- 增加一条评分 -->
+
+    <insert id="addRating">
+        insert into forum.t_rating (rating_id, course_id, rating_time, rating_score)
+        values (uuid(), #{courseId}, now(), #{ratingScore});
+    </insert>
+
+    <!-- 删除一条评分 -->
+
+    <delete id="delRatingById" parameterType="String">
+        delete
+        from forum.t_rating
+        where rating_id = #{ratingId}
+    </delete>
+
+    <!-- 更新一条评分 -->
+
+    <update id="updateRating" parameterType="Rating">
+        update forum.t_rating
+        set rating_id=#{ratingId},
+            course_id=#{courseId},
+            rating_time=#{ratingTime},
+            rating_score=#{ratingScore}
+        where rating_id = #{ratingId};
+    </update>
+
+    <!-- 根据id查询评分 -->
+
+    <select id="queryRatingById" resultMap="BaseResultMap">
+        select *
+        from forum.t_rating
+        where rating_id = #{ratingId}
+    </select>
+
+    <!-- 根据course_id查询评分 -->
+
+    <select id="queryAllRatingByCourseId" resultMap="BaseResultMap">
+        select *
+        from forum.t_rating
+        where course_id = #{courseId}
+    </select>
+
+    <!-- 查询数据库中所有评分 -->
+
+    <select id="queryAllRating" resultMap="BaseResultMap">
+        select *
+        from forum.t_rating
+    </select>
+
+    <!-- 根据courseId查询数据库中评分个数 -->
+
+    <select id="queryNumberOfRatingByCourseId" resultType="int">
+        select SUM(*)
+        from forum.t_rating
+    </select>
+
+    <!-- 根据courseId查询数据库中平均评分 -->
+
+    <select id="queryAvgRatingByCourseId" resultType="double">
+        select AVG(rating_score)
+        from forum.t_rating
+    </select>
+
+</mapper>

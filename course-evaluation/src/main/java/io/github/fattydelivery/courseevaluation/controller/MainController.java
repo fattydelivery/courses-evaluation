@@ -4,6 +4,8 @@ import io.github.fattydelivery.courseevaluation.pojo.Comment;
 import io.github.fattydelivery.courseevaluation.pojo.Course;
 import io.github.fattydelivery.courseevaluation.service.impl.CommentServiceImpl;
 import io.github.fattydelivery.courseevaluation.service.impl.CourseServiceImpl;
+import io.github.fattydelivery.courseevaluation.service.impl.LikeServiceImpl;
+import io.github.fattydelivery.courseevaluation.service.impl.RatingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,12 @@ public class MainController {
 
     @Autowired
     CommentServiceImpl commentService;
+
+    @Autowired
+    LikeServiceImpl likeService;
+
+    @Autowired
+    RatingServiceImpl ratingService;
 
 
     //返回主页
@@ -98,13 +106,28 @@ public class MainController {
 
 
     // 添加评论的请求处理
-    @PostMapping("/addcomment")
-    public String addcomment(@RequestParam(value = "course_id", required = false) String courseId,
+    @PostMapping("/addrecord")
+    public String addrecord(@RequestParam(value = "course_id", required = true) String courseId,
+                             @RequestParam(value = "rating", required = false) Integer rating,
+                             @RequestParam(value = "like", required = false) Integer like,
                              @RequestParam(value = "comment_content", required = false) String commentContent) {
         System.out.println(courseId);
+        System.out.println(rating);
+        System.out.println(like);
         System.out.println(commentContent);
-        commentService.addComment(courseId, commentContent);
-        return "redirect:/course/"+courseId;
+        if (!commentContent.trim().equals("")) {
+            System.out.println("add comment");
+            commentService.addComment(courseId, commentContent);
+        }
+        if (!(rating == 0)) {
+            System.out.println("add rating");
+            ratingService.addRating(courseId, new Integer(rating));
+        }
+        if (!(like == 0)) {
+            System.out.println("add like");
+            likeService.addLike(courseId);
+        }
+        return "redirect:/course/" + courseId;
     }
 
 
