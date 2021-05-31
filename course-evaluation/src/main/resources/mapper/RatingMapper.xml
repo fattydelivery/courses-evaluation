@@ -67,15 +67,17 @@
     <!-- 根据courseId查询数据库中评分个数 -->
 
     <select id="queryNumberOfRatingByCourseId" resultType="int">
-        select SUM(*)
+        select COUNT(*)
         from forum.t_rating
+        where course_id = #{courseId}
     </select>
 
     <!-- 根据courseId查询数据库中平均评分 -->
 
     <select id="queryAvgRatingByCourseId" resultType="double">
-        select AVG(rating_score)
-        from forum.t_rating
+        select IFNULL((select AVG(rating_score)
+                       from forum.t_rating
+                       where course_id = #{courseId}), 0.0);
     </select>
 
 </mapper>

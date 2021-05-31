@@ -55,8 +55,9 @@
     <!-- 根据courseId查询数据库中喜欢个数 -->
 
     <select id="queryNumberOfLikeByCourseId" resultType="int">
-        select SUM(*)
+        select COUNT(*)
         from forum.t_like
+        where course_id = #{courseId}
     </select>
 
 </mapper>

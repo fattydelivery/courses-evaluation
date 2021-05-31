@@ -42,11 +42,11 @@
                                 <div class="layui-col-md2" th:text="${listcourse.getTeacherName()}"></div>
                                 <div class="layui-col-md3"> - </div>
                                 <div class="layui-col-md1 layui-col-space1"><i class="layui-icon layui-icon-heart"
-                                                                               th:text="喜欢"></i></div>
+                                                                               th:text="喜欢+${likemap.get(listcourse.getCourseId())}"></i></div>
                                 <div class="layui-col-md1 layui-col-space1"><i class="layui-icon layui-icon-reply-fill"
-                                                                               th:text="评论"></i></div>
+                                                                               th:text="评论+${commentmap.get(listcourse.getCourseId())}"></i></div>
                                 <div class="layui-col-md1 layui-col-space1"><i class="layui-icon layui-icon-rate"
-                                                                               th:text="评分"></i></div>
+                                                                               th:text="评分+${ratingmap.get(listcourse.getCourseId())}"></i></div>
                             </a>
                         </div>
                     </div>

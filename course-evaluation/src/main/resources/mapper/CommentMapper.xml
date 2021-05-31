@@ -67,8 +67,9 @@
     <!-- 根据courseId查询数据库中评论个数 -->
 
     <select id="queryNumberOfCommentByCourseId" resultType="int">
-        select SUM(*)
+        select COUNT(*)
         from forum.t_comment
+        where course_id = #{courseId}
     </select>
 
 </mapper>

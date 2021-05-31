@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -51,7 +52,24 @@ public class MainController {
     @GetMapping("/home")
     public String main(Model model) {
         Collection<Course> list = courseService.queryAllCourse();
+        HashMap<String, Integer> commentMap = new HashMap<String, Integer>();
+        HashMap<String, Double> ratingMap = new HashMap<String, Double>();
+        HashMap<String, Integer> likeMap = new HashMap<String, Integer>();
+        for (Course course : list) {
+            String courseId = course.getCourseId();
+            commentMap.put(courseId, commentService.queryNumberOfCommentByCourseId(courseId));
+            double ratingTemp = ratingService.queryAvgRatingByCourseId(courseId);
+            if(ratingTemp == Double.NaN) {
+                ratingTemp = 0;
+            }
+            ratingMap.put(courseId, ratingTemp);
+            likeMap.put(courseId, likeService.queryNumberOfLikeByCourseId(courseId));
+        }
+
         model.addAttribute("courselist", list);
+        model.addAttribute("commentmap", commentMap);
+        model.addAttribute("ratingmap", ratingMap);
+        model.addAttribute("likemap", likeMap);
         return "home";
     }
 
@@ -108,9 +126,9 @@ public class MainController {
     // 添加评论的请求处理
     @PostMapping("/addrecord")
     public String addrecord(@RequestParam(value = "course_id", required = true) String courseId,
-                             @RequestParam(value = "rating", required = false) Integer rating,
-                             @RequestParam(value = "like", required = false) Integer like,
-                             @RequestParam(value = "comment_content", required = false) String commentContent) {
+                            @RequestParam(value = "rating", required = false) Integer rating,
+                            @RequestParam(value = "like", required = false) Integer like,
+                            @RequestParam(value = "comment_content", required = false) String commentContent) {
         System.out.println(courseId);
         System.out.println(rating);
         System.out.println(like);
