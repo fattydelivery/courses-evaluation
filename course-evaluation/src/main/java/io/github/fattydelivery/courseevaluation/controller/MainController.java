@@ -41,6 +41,39 @@ public class MainController {
     RatingServiceImpl ratingService;
 
 
+    private HashMap<String, Integer> getCommentInfo(Collection<Course> list) {
+        HashMap<String, Integer> commentMap = new HashMap<String, Integer>();
+        for (Course course : list) {
+            String courseId = course.getCourseId();
+            commentMap.put(courseId, commentService.queryNumberOfCommentByCourseId(courseId));
+            double ratingTemp = ratingService.queryAvgRatingByCourseId(courseId);
+        }
+        return commentMap;
+    }
+
+    private HashMap<String, Double> getRatingInfo(Collection<Course> list) {
+        HashMap<String, Double> ratingMap = new HashMap<String, Double>();
+        for (Course course : list) {
+            String courseId = course.getCourseId();
+            double ratingTemp = ratingService.queryAvgRatingByCourseId(courseId);
+            if(Double.isNaN(ratingTemp)) {
+                ratingTemp = 0;
+            }
+            ratingMap.put(courseId, ratingTemp);
+        }
+        return ratingMap;
+    }
+
+    private HashMap<String, Integer> getLikeInfo(Collection<Course> list) {
+        HashMap<String, Integer> likeMap = new HashMap<String, Integer>();
+        for (Course course : list) {
+            String courseId = course.getCourseId();
+            likeMap.put(courseId, likeService.queryNumberOfLikeByCourseId(courseId));
+        }
+        return likeMap;
+    }
+
+
     //返回主页
     @GetMapping("/tomain")
     public String tomain() {
@@ -52,24 +85,11 @@ public class MainController {
     @GetMapping("/home")
     public String main(Model model) {
         Collection<Course> list = courseService.queryAllCourse();
-        HashMap<String, Integer> commentMap = new HashMap<String, Integer>();
-        HashMap<String, Double> ratingMap = new HashMap<String, Double>();
-        HashMap<String, Integer> likeMap = new HashMap<String, Integer>();
-        for (Course course : list) {
-            String courseId = course.getCourseId();
-            commentMap.put(courseId, commentService.queryNumberOfCommentByCourseId(courseId));
-            double ratingTemp = ratingService.queryAvgRatingByCourseId(courseId);
-            if(ratingTemp == Double.NaN) {
-                ratingTemp = 0;
-            }
-            ratingMap.put(courseId, ratingTemp);
-            likeMap.put(courseId, likeService.queryNumberOfLikeByCourseId(courseId));
-        }
 
         model.addAttribute("courselist", list);
-        model.addAttribute("commentmap", commentMap);
-        model.addAttribute("ratingmap", ratingMap);
-        model.addAttribute("likemap", likeMap);
+        model.addAttribute("commentmap", getCommentInfo(list));
+        model.addAttribute("ratingmap", getRatingInfo(list));
+        model.addAttribute("likemap", getLikeInfo(list));
         return "home";
     }
 
@@ -152,15 +172,18 @@ public class MainController {
     //  根据书名  查询书籍
     @PostMapping("/search")
     public String search(String queryCourseName, Model model) {
-        List<Course> courses = courseService.queryCourseByName(queryCourseName);
+        List<Course> list = courseService.queryCourseByName(queryCourseName);
 //        System.out.println(books);
 
-        if (courses.size() == 0) {
-            courses = courseService.queryAllCourse();
-            model.addAttribute("error", "未查到相关书籍");
+        if (list.size() == 0) {
+            list = courseService.queryAllCourse();
+            model.addAttribute("error", "未查到相关课程");
         }
 
-        model.addAttribute("courselist", courses);
+        model.addAttribute("courselist", list);
+        model.addAttribute("commentmap", getCommentInfo(list));
+        model.addAttribute("ratingmap", getRatingInfo(list));
+        model.addAttribute("likemap", getLikeInfo(list));
         return "home";
     }
 }

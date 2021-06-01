@@ -20,6 +20,7 @@
 
     <form th:action="@{/search}" method="post" style="margin-bottom: 10px;" class="layui-form layui-form-pane">
         <div class="layui-form-item layui-row">
+            <span style="color: red;font-weight: bold; text-align: center;" th:text="${error}"></span>
             <div class="layui-input-block">
                 <input type="text" name="queryCourseName" required lay-verify="required" placeholder="请输入课程名称"
                        autocomplete="off" class="layui-input layui-input-inline layui-col-md8 layui-col-lg-offset2">
@@ -51,7 +52,7 @@
                                 <div class="layui-col-md1 layui-col-space1"><i class="layui-icon layui-icon-reply-fill"
                                                                                th:text="评论+${commentmap.get(listcourse.getCourseId())}"></i></div>
                                 <div class="layui-col-md1 layui-col-space1"><i class="layui-icon layui-icon-rate"
-                                                                               th:text="评分+${ratingmap.get(listcourse.getCourseId())}"></i></div>
+                                                                               th:text="评分+${#numbers.formatDecimal(ratingmap.get(listcourse.getCourseId()),1,1)}"></i></div>
                             </a>
                         </div>
                     </div>
