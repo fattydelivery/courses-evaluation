@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>海南大学课程评价网</title>
+    <link rel="stylesheet" href="/css/layui.css">
+</head>
+<body>
+<ul class="layui-nav" lay-filter="">
+    <li class="layui-nav-item layui-this"><a href="/home">主页</a></li>
+    <li class="layui-nav-item"><a href="https://fattydelivery.github.io">关于我们</a></li>
+    <li class="layui-nav-item"><a href="mailto:bj.yan.pa@qq.com">联系我们</a></li>
+</ul>
+<div class="layui-col-md8 layui-col-md-offset2">
+    <button type="button" class="layui-btn layui-btn-fluid" th:onclick="${cmdExcutor.start()}">
+        第一步：利用Sqoop将数据增量导入至Hive
+    </button>
+    <button type="button" class="layui-btn layui-btn-fluid layui-btn-normal" th:onclick="${cmdExcutor.first()}">
+        第二步：启动Kafka进程，生产和消费
+    </button>
+    <button type="button" class="layui-btn layui-btn-fluid layui-btn-warm" th:onclick="${cmdExcutor.second()()}">
+        第三步：利用Hive分析数据
+    </button>
+    <button type="button" class="layui-btn layui-btn-fluid layui-btn-danger" th:onclick="${cmdExcutor.end()}">
+        第四步：将分析结果导出至MySQL
+    </button>
+    <a href="/dashboard">
+        <button type="button" class="layui-btn layui-btn-fluid">跳转至分析页面</button>
+    </a>
+</div>
+</body>
+</html>

@@ -17,10 +17,14 @@ java -jar course-evaluation-0.0.1-SNAPSHOT.war
 
 <details>
     <summary>Used package</summary>
-    - layui
-    - springboot
-    - maven
-    - mybatis
+    
+- layui
+    
+- springboot
+    
+- maven
+    
+- mybatis
 </details>
 
 ## Back-end deployment

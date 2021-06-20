@@ -2,11 +2,15 @@ package io.github.fattydelivery.courseevaluation.controller;
 
 import io.github.fattydelivery.courseevaluation.pojo.Comment;
 import io.github.fattydelivery.courseevaluation.pojo.Course;
+import io.github.fattydelivery.courseevaluation.properties.ScriptProperties;
 import io.github.fattydelivery.courseevaluation.service.impl.CommentServiceImpl;
 import io.github.fattydelivery.courseevaluation.service.impl.CourseServiceImpl;
 import io.github.fattydelivery.courseevaluation.service.impl.LikeServiceImpl;
 import io.github.fattydelivery.courseevaluation.service.impl.RatingServiceImpl;
+import io.github.fattydelivery.courseevaluation.utils.CmdExcutor;
+import io.github.fattydelivery.courseevaluation.utils.InitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +30,7 @@ import java.util.List;
  * @create: 2021-05-24-17:51
  **/
 @Controller          // RestController=Controller+ResponseBody
+@EnableAutoConfiguration
 public class MainController {
 
     @Autowired
@@ -39,6 +44,12 @@ public class MainController {
 
     @Autowired
     RatingServiceImpl ratingService;
+
+    @Autowired
+    private ScriptProperties scriptProperties;
+
+    @Autowired
+    private CmdExcutor cmdExcutor;
 
 
     private HashMap<String, Integer> getCommentInfo(Collection<Course> list) {
@@ -185,5 +196,14 @@ public class MainController {
         model.addAttribute("ratingmap", getRatingInfo(list));
         model.addAttribute("likemap", getLikeInfo(list));
         return "home";
+    }
+
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        // InitRunner initRunner = new InitRunner();
+        // initRunner.run();
+        System.out.println(scriptProperties.getImportShell());
+        model.addAttribute("cmdExcutor", cmdExcutor);
+        return "admin";
     }
 }
