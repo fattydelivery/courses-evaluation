@@ -67,7 +67,7 @@ public class MainController {
         for (Course course : list) {
             String courseId = course.getCourseId();
             double ratingTemp = ratingService.queryAvgRatingByCourseId(courseId);
-            if(Double.isNaN(ratingTemp)) {
+            if (Double.isNaN(ratingTemp)) {
                 ratingTemp = 0;
             }
             ratingMap.put(courseId, ratingTemp);
@@ -203,6 +203,7 @@ public class MainController {
         // InitRunner initRunner = new InitRunner();
         // initRunner.run();
         System.out.println(scriptProperties.getImportShell());
+        // CmdExcutor cmdExcutor= new CmdExcutor();
         model.addAttribute("cmdExcutor", cmdExcutor);
         return "admin";
     }
